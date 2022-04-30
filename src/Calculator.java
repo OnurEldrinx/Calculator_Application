@@ -1,6 +1,5 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.util.Objects;
 
 public class Calculator{
@@ -9,7 +8,7 @@ public class Calculator{
 
     JTextField operand1,operand2;
 
-    JComboBox<String> operations = new JComboBox<>();
+    JComboBox<String> operations;
 
     JButton calculateButton;
 
@@ -40,63 +39,7 @@ public class Calculator{
         operations.addItem("/");
 
 
-        calculateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String input1 = operand1.getText();
-                String input2 = operand2.getText();
-
-                int i1,i2,r;
-
-
-                try {
-
-                    i1 = Integer.parseInt(input1);
-                    i2 = Integer.parseInt(input2);
-                    r = 0;
-
-
-                    switch (Objects.requireNonNull(operations.getSelectedItem()).toString()){
-
-                        case "+":
-                            r = i1+i2;
-                            break;
-                        case "-":
-                            r = i1-i2;
-                            break;
-                        case "x":
-                            r = i1*i2;
-                            break;
-                        case "/":
-                            r = i1/i2;
-                            break;
-
-
-                    }
-
-
-                    resultLabel.setText("=     " + r);
-
-                    operand1.setText(null);
-                    operand2.setText(null);
-                    operations.setSelectedIndex(0);
-
-                } catch (final NumberFormatException exception) {
-
-                    JOptionPane.showMessageDialog(frame, "Inputs should be an integer.", "Error", JOptionPane.ERROR_MESSAGE);
-                    operand1.setText(null);
-                    operand2.setText(null);
-                    resultLabel.setText("=     Result");
-
-                }
-
-
-
-
-            }
-        });
-
+        calculateButton.addActionListener(e -> calculatorButtonAction(frame));
 
         frame.add(operand1);
         frame.add(operand2);
@@ -110,6 +53,59 @@ public class Calculator{
         frame.setResizable(false);
         frame.setLayout(null);
         frame.setVisible(true);
+
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+    }
+
+    public void calculatorButtonAction(Frame frame){
+        String input1 = operand1.getText();
+        String input2 = operand2.getText();
+
+        int i1,i2,r;
+
+
+        try {
+
+            i1 = Integer.parseInt(input1);
+            i2 = Integer.parseInt(input2);
+            r = 0;
+
+
+            switch (Objects.requireNonNull(operations.getSelectedItem()).toString()){
+
+                case "+":
+                    r = i1+i2;
+                    break;
+                case "-":
+                    r = i1-i2;
+                    break;
+                case "x":
+                    r = i1*i2;
+                    break;
+                case "/":
+                    r = i1/i2;
+                    break;
+
+
+            }
+
+
+            resultLabel.setText("=     " + r);
+
+            operand1.setText(null);
+            operand2.setText(null);
+            operations.setSelectedIndex(0);
+
+        } catch (final NumberFormatException exception) {
+
+            JOptionPane.showMessageDialog(frame, "Inputs should be an integer.", "Error", JOptionPane.ERROR_MESSAGE);
+            operand1.setText(null);
+            operand2.setText(null);
+            operations.setSelectedIndex(0);
+            resultLabel.setText("=     Result");
+
+        }
 
 
     }
